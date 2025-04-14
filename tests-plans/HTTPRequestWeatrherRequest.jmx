@@ -5,6 +5,8 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
@@ -20,12 +22,10 @@
       <hashTree>
         <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters">
           <collectionProp name="UserParameters.names">
-            <stringProp name="-1486419956">dir_base_scripts</stringProp>
-            <stringProp name="-1609499099">dir_base_tests</stringProp>
+            <stringProp name="240454467">dir_base</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="492878017">
-              <stringProp name="-625159576">C:/Projects/_/jMeterDebug/</stringProp>
+            <collectionProp name="1223361991">
               <stringProp name="-625159576">C:/Projects/_/jMeterDebug/</stringProp>
             </collectionProp>
           </collectionProp>
@@ -36,10 +36,10 @@
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
-          <stringProp name="script">def dir_base_tests = vars.get(&quot;dir_base_tests&quot;)
-def dir_base_scripts = vars.get(&quot;dir_base_scripts&quot;)
+          <stringProp name="script">
+def dir_base = vars.get(&quot;dir_base&quot;)
 
-if (!dir_base_tests || !dir_base_scripts) {
+if (!dir_base) {
     log.error(&quot;❌ Missing base directory variables!&quot;)
     return
 }
@@ -47,7 +47,7 @@ if (!dir_base_tests || !dir_base_scripts) {
 def classLoader = new GroovyClassLoader()
 
 // ✅ Загружаем WeatherResponse
-File modelFile = new File(dir_base_scripts + &quot;scripts/WeatherResponse.groovy&quot;)  // Путь с учетом пакета
+File modelFile = new File(dir_base + &quot;scripts/WeatherResponse.groovy&quot;)  // Путь с учетом пакета
 if (!modelFile.exists()) {
     log.error(&quot;❌ WeatherResponse.groovy not found: ${modelFile.absolutePath}&quot;)
     return
@@ -57,7 +57,7 @@ vars.putObject(&quot;WeatherResponse&quot;, weatherResponseClass)
 log.info(&quot;✅ WeatherResponse.groovy loaded&quot;)
 
 // ✅ Загружаем WeatherResponseSpec
-File testFile = new File(dir_base_tests + &quot;tests/WeatherResponseSpec.groovy&quot;)  // Путь с учетом пакета
+File testFile = new File(dir_base + &quot;tests/WeatherResponseSpec.groovy&quot;)  // Путь с учетом пакета
 if (!testFile.exists()) {
     log.error(&quot;❌ WeatherResponseSpec.groovy not found: ${testFile.absolutePath}&quot;)
     return
@@ -65,29 +65,6 @@ if (!testFile.exists()) {
 Class weatherResponseSpecClass = classLoader.parseClass(testFile)
 vars.putObject(&quot;WeatherResponseSpec&quot;, weatherResponseSpecClass)
 log.info(&quot;✅ weatherResponseSpec.groovy loaded&quot;)</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Load: WeatherResponseSpecClass.groovy" enabled="false">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">def dir_base_tests = vars.get(&quot;dir_base_tests&quot;)
-
-if (dir_base_tests == null) {
-    log.error(&quot;❌ dir_base_tests is null! Did you set the variable?&quot;)
-} else {
-    def classLoader = new GroovyClassLoader()
-    File file = new File(dir_base_tests + &quot;WeatherResponseSpec.groovy&quot;)
-
-    if (!file.exists()) {
-        log.error(&quot;❌ File not found: ${file.getAbsolutePath()}&quot;)
-    } else {
-        Class weatherClass = classLoader.parseClass(file)
-        vars.putObject(&quot;WeatherResponseSpec&quot;, weatherClass)
-        log.info(&quot;----✅ WeatherResponseSpecClass class loaded and stored.&quot;)
-    }
-}</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
@@ -104,19 +81,6 @@ if (dir_base_tests == null) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Parth and Validate json response" enabled="false">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">
-
-vars.putObject(&quot;WeatherResponseObj&quot;, result)
-
-
-</stringProp>
-            <stringProp name="scriptLanguage">groovy</stringProp>
-          </JSR223PostProcessor>
-          <hashTree/>
           <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Validation Response">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
