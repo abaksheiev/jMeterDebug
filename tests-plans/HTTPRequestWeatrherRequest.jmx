@@ -104,15 +104,11 @@ if (dir_base_tests == null) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Parth and Validate json response">
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Parth and Validate json response" enabled="false">
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters"></stringProp>
-            <stringProp name="script">def response = prev.getResponseDataAsString()
-
-// Retrieve the previously stored class
-def weatherClass = vars.getObject(&quot;WeatherResponse&quot;)
-def result = weatherClass.fromJson(response)
+            <stringProp name="script">
 
 vars.putObject(&quot;WeatherResponseObj&quot;, result)
 
@@ -127,11 +123,22 @@ vars.putObject(&quot;WeatherResponseObj&quot;, result)
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">// Retrieve the previously stored class
-
+def weatherClass = vars.getObject(&quot;WeatherResponse&quot;)
 def weatherTestClass = vars.getObject(&quot;WeatherResponseSpec&quot;)
-def responseObj = vars.getObject(&quot;WeatherResponseObj&quot;)
 
-weatherTestClass.validate(responseObj)</stringProp>
+// Retrieve the previously stored class
+def responseStr = prev.getResponseDataAsString()
+def responseObj = weatherClass.fromJson(responseStr)
+
+try {
+  // Cast/convert to your WeatherResponse class if needed
+  weatherTestClass.validate(responseObj)
+} catch (AssertionError e) {
+    // ❗ Mark sample as failed
+    prev.setSuccessful(false)
+    prev.setResponseMessage(&quot;Assertion failed: ${e.message}&quot;)
+    prev.setResponseData(&quot;Assertion failed: ${e.message}&quot;, &quot;UTF-8&quot;)
+}</stringProp>
           </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
