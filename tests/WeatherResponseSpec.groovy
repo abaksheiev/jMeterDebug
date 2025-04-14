@@ -1,5 +1,6 @@
 import scripts.WeatherResponse
 
+
 class WeatherResponseSpec {
 
     static void validate(WeatherResponse  json){
