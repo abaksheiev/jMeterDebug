@@ -20,7 +20,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters">
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
           <collectionProp name="UserParameters.names">
             <stringProp name="240454467">dir_base</stringProp>
           </collectionProp>
@@ -32,7 +32,7 @@
           <boolProp name="UserParameters.per_iteration">false</boolProp>
         </UserParameters>
         <hashTree/>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Load: WeatherResponse.groovy">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Load: WeatherResponse.groovy" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -68,7 +68,7 @@ log.info(&quot;✅ weatherResponseSpec.groovy loaded&quot;)</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP: /v1/forecast">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP: /v1/forecast" enabled="true">
           <stringProp name="HTTPSampler.domain">api.open-meteo.com</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;current_weather=true</stringProp>
@@ -81,7 +81,7 @@ log.info(&quot;✅ weatherResponseSpec.groovy loaded&quot;)</stringProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Validation Response">
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Validation Response" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
@@ -106,7 +106,7 @@ try {
           </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
