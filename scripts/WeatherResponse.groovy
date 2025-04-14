@@ -1,6 +1,6 @@
 
 // WeatherResponse.groovy
-package scripts  // Здесь указана папка, в которой находится класс
+package scripts
 
 import groovy.json.JsonSlurper
 

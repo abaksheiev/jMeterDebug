@@ -1,4 +1,5 @@
 import scripts.WeatherResponse
+
 class WeatherResponseSpec {
 
     static void validate(WeatherResponse  json){
@@ -16,11 +17,11 @@ class WeatherResponseSpec {
             errors << "Temperature is missing"
         }
 
-        if (json.currentWeather.temperature >= 0) {
+        if (json.currentWeather.temperature <= 0) {
             errors << "Temperature must be positive"
         }
 
-        if (json.currentWeather.windspeed >= 0) {
+        if (json.currentWeather.windspeed <= 0) {
             errors << "Windspeed must be >= 0"
         }
 
