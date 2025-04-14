@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters">
+          <collectionProp name="UserParameters.names">
+            <stringProp name="-1486419956">dir_base_scripts</stringProp>
+            <stringProp name="-1609499099">dir_base_tests</stringProp>
+          </collectionProp>
+          <collectionProp name="UserParameters.thread_values">
+            <collectionProp name="492878017">
+              <stringProp name="-625159576">C:/Projects/_/jMeterDebug/</stringProp>
+              <stringProp name="-625159576">C:/Projects/_/jMeterDebug/</stringProp>
+            </collectionProp>
+          </collectionProp>
+          <boolProp name="UserParameters.per_iteration">false</boolProp>
+        </UserParameters>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Load: WeatherResponse.groovy">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">def dir_base_tests = vars.get(&quot;dir_base_tests&quot;)
+def dir_base_scripts = vars.get(&quot;dir_base_scripts&quot;)
+
+if (!dir_base_tests || !dir_base_scripts) {
+    log.error(&quot;❌ Missing base directory variables!&quot;)
+    return
+}
+
+def classLoader = new GroovyClassLoader()
+
+// ✅ Загружаем WeatherResponse
+File modelFile = new File(dir_base_scripts + &quot;scripts/WeatherResponse.groovy&quot;)  // Путь с учетом пакета
+if (!modelFile.exists()) {
+    log.error(&quot;❌ WeatherResponse.groovy not found: ${modelFile.absolutePath}&quot;)
+    return
+}
+Class weatherResponseClass = classLoader.parseClass(modelFile)
+vars.putObject(&quot;WeatherResponse&quot;, weatherResponseClass)
+log.info(&quot;✅ WeatherResponse.groovy loaded&quot;)
+
+// ✅ Загружаем WeatherResponseSpec
+File testFile = new File(dir_base_tests + &quot;tests/WeatherResponseSpec.groovy&quot;)  // Путь с учетом пакета
+if (!testFile.exists()) {
+    log.error(&quot;❌ WeatherResponseSpec.groovy not found: ${testFile.absolutePath}&quot;)
+    return
+    }
+Class weatherResponseSpecClass = classLoader.parseClass(testFile)
+vars.putObject(&quot;WeatherResponseSpec&quot;, weatherResponseSpecClass)
+log.info(&quot;✅ weatherResponseSpec.groovy loaded&quot;)</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Load: WeatherResponseSpecClass.groovy" enabled="false">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">def dir_base_tests = vars.get(&quot;dir_base_tests&quot;)
+
+if (dir_base_tests == null) {
+    log.error(&quot;❌ dir_base_tests is null! Did you set the variable?&quot;)
+} else {
+    def classLoader = new GroovyClassLoader()
+    File file = new File(dir_base_tests + &quot;WeatherResponseSpec.groovy&quot;)
+
+    if (!file.exists()) {
+        log.error(&quot;❌ File not found: ${file.getAbsolutePath()}&quot;)
+    } else {
+        Class weatherClass = classLoader.parseClass(file)
+        vars.putObject(&quot;WeatherResponseSpec&quot;, weatherClass)
+        log.info(&quot;----✅ WeatherResponseSpecClass class loaded and stored.&quot;)
+    }
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP: /v1/forecast">
+          <stringProp name="HTTPSampler.domain">api.open-meteo.com</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;current_weather=true</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Parth and Validate json response">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">def response = prev.getResponseDataAsString()
+
+// Retrieve the previously stored class
+def weatherClass = vars.getObject(&quot;WeatherResponse&quot;)
+def result = weatherClass.fromJson(response)
+
+vars.putObject(&quot;WeatherResponseObj&quot;, result)
+
+
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Validation Response">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">// Retrieve the previously stored class
+
+def weatherTestClass = vars.getObject(&quot;WeatherResponseSpec&quot;)
+def responseObj = vars.getObject(&quot;WeatherResponseObj&quot;)
+
+weatherTestClass.validate(responseObj)</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
